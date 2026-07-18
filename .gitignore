@@ -1,26 +1,2 @@
 .idea/
-.vscode/
-
-# Python cache / virtual env artifacts
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.venv/
-venv/
-env/
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Generated project data and outputs
-data/interim/
-data/processed/
-reports/figures/
-
-# OS files
-.DS_Store
-Thumbs.db
+data/
