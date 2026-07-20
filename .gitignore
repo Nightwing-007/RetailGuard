@@ -1,2 +1,34 @@
+# IDEs and Editors
 .idea/
+.vscode/
+*.swp
+*.swo
+
+# Data and Models
 data/
+*.csv
+*.joblib
+*.pkl
+*.h5
+*.model
+
+# Python and Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
