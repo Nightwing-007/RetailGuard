@@ -2,6 +2,8 @@
 02_preprocessing.py
 Phase 2 preprocessing: load raw Online Retail dataset and create data/preprocessed_retail.csv
 """
+# pylint: disable=invalid-name,too-many-locals,too-many-statements
+from collections import defaultdict
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -12,8 +14,11 @@ OUT_PATH = BASE / "data" / "preprocessed_retail.csv"
 
 
 def main():
+    """Execute the preprocessing phase."""
     print("Loading raw data from", RAW_PATH)
-    df = pd.read_csv(RAW_PATH, encoding="ISO-8859-1", parse_dates=["InvoiceDate"], low_memory=False)
+    df = pd.read_csv(
+        RAW_PATH, encoding="ISO-8859-1", parse_dates=["InvoiceDate"], low_memory=False
+    )
     print(f"Loaded {len(df):,} rows")
 
     # Drop missing CustomerID
@@ -43,7 +48,6 @@ def main():
     p_qty_remaining = purchases["Quantity"].to_numpy().astype(float)
     is_returned_flag = np.zeros(len(purchases), dtype=np.int8)
 
-    from collections import defaultdict
     group_to_positions = defaultdict(list)
     for pos, cust, stock in zip(p_idx, p_customer, p_stock):
         group_to_positions[(cust, stock)].append(pos)
@@ -79,7 +83,16 @@ def main():
     purchases["IsReturned"] = is_returned_flag
     processed = purchases.drop(columns=["_orig_index"]).copy()
 
-    cols = ["InvoiceNo", "InvoiceDate", "CustomerID", "StockCode", "Description", "Quantity", "UnitPrice", "IsReturned"]
+    cols = [
+        "InvoiceNo",
+        "InvoiceDate",
+        "CustomerID",
+        "StockCode",
+        "Description",
+        "Quantity",
+        "UnitPrice",
+        "IsReturned",
+    ]
     existing_cols = [c for c in cols if c in processed.columns]
     remaining = [c for c in processed.columns if c not in existing_cols]
     processed = processed[existing_cols + remaining]
@@ -90,4 +103,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

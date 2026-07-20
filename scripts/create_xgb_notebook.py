@@ -1,13 +1,16 @@
+"""
+Module to create the XGBoost hyperparameter tuning notebook.
+"""
 import nbformat as nbf
 
 nb = nbf.v4.new_notebook()
 
-text = """\
+TEXT = """\
 # Phase 5.5: XGBoost Optimization
 In this notebook, we load our finalized datasets, train and tune an XGBoost model to optimize the F1 score for the minority class, and evaluate it on the test set. If it outperforms the baseline Logistic Regression model, we save it as our new best model.
 """
 
-code_imports = """\
+CODE_IMPORTS = """\
 import pandas as pd
 import numpy as np
 import joblib
@@ -18,7 +21,7 @@ import warnings
 warnings.filterwarnings('ignore')
 """
 
-code_load = """\
+CODE_LOAD = """\
 # Load finalized datasets
 X_train_scaled = pd.read_csv('../data/X_train_scaled.csv')
 X_test_scaled = pd.read_csv('../data/X_test_scaled.csv')
@@ -30,7 +33,7 @@ print("X_train shape:", X_train_scaled.shape)
 print("X_test shape:", X_test_scaled.shape)
 """
 
-code_tune = """\
+CODE_TUNE = """\
 # Initialize XGBClassifier
 xgb = XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='logloss')
 
@@ -61,7 +64,7 @@ print("Tuning complete.")
 print("Best Parameters:", random_search.best_params_)
 """
 
-code_eval = """\
+CODE_EVAL = """\
 # Evaluate the tuned model on the test set
 best_xgb = random_search.best_estimator_
 y_pred = best_xgb.predict(X_test_scaled)
@@ -77,7 +80,7 @@ test_f1 = f1_score(y_test, y_pred)
 print(f"Test F1 Score (Minority Class): {test_f1:.4f}")
 """
 
-code_save = """\
+CODE_SAVE = """\
 # Compare with baseline and save
 baseline_f1 = 0.1576
 
@@ -90,14 +93,14 @@ else:
     print("Keeping the previous best model.")
 """
 
-nb['cells'] = [
-    nbf.v4.new_markdown_cell(text),
-    nbf.v4.new_code_cell(code_imports),
-    nbf.v4.new_code_cell(code_load),
-    nbf.v4.new_code_cell(code_tune),
-    nbf.v4.new_code_cell(code_eval),
-    nbf.v4.new_code_cell(code_save)
+nb["cells"] = [
+    nbf.v4.new_markdown_cell(TEXT),
+    nbf.v4.new_code_cell(CODE_IMPORTS),
+    nbf.v4.new_code_cell(CODE_LOAD),
+    nbf.v4.new_code_cell(CODE_TUNE),
+    nbf.v4.new_code_cell(CODE_EVAL),
+    nbf.v4.new_code_cell(CODE_SAVE),
 ]
 
-with open('../notebooks/05_model_tuning_xgb.ipynb', 'w') as f:
+with open("../notebooks/05_model_tuning_xgb.ipynb", "w", encoding="utf-8") as f:
     nbf.write(nb, f)
