@@ -8,7 +8,12 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-BASE = Path(__file__).resolve().parent.parent
+if "__file__" in globals():
+    BASE = Path(__file__).resolve().parent.parent
+else:
+    BASE = Path().resolve()
+    if BASE.name in ("notebooks", "scripts"):
+        BASE = BASE.parent
 RAW_PATH = BASE / "data" / "raw" / "online_retail.csv"
 OUT_PATH = BASE / "data" / "preprocessed_retail.csv"
 

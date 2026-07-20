@@ -11,8 +11,15 @@ import seaborn as sns
 sns.set_theme(style="whitegrid", context="talk")
 plt.rcParams["figure.dpi"] = 120
 
-DATA = Path(__file__).resolve().parent.parent / "data" / "preprocessed_retail.csv"
-OUT_DIR = Path(__file__).resolve().parent.parent / "reports" / "figures"
+if "__file__" in globals():
+    BASE = Path(__file__).resolve().parent.parent
+else:
+    BASE = Path().resolve()
+    if BASE.name in ("notebooks", "scripts"):
+        BASE = BASE.parent
+
+DATA = BASE / "data" / "preprocessed_retail.csv"
+OUT_DIR = BASE / "reports" / "figures"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

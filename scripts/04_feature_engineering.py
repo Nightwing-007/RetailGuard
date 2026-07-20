@@ -13,7 +13,12 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 
-BASE = Path(__file__).resolve().parent.parent
+if "__file__" in globals():
+    BASE = Path(__file__).resolve().parent.parent
+else:
+    BASE = Path().resolve()
+    if BASE.name in ("notebooks", "scripts"):
+        BASE = BASE.parent
 DATA_IN = BASE / "data" / "preprocessed_retail.csv"
 OUT_DIR = BASE / "data"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
